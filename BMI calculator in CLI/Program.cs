@@ -4,49 +4,47 @@ internal class Program
 {
     private static void Main(string[] args)
     {
-
-        if (args.Length > 0)
+        Validation(args);
+        Execute(args);
+    }
+    static void Validation(string[] args)
+    {
+        if (args.Length == 0 || args[0] != "bmi")
         {
-            switch (args[0])
-            {
-                case "bmi":
-                    if (args.Length >= 2)
-                    {
-                        switch (args[1])
-                        {
-                            case "--height" when args[3] == "--weight":
-                                BmiCalculater(args[2], args[4]);
-                                break;
-                            case "--weight" when args[3] == "--height":
-                                BmiCalculater(args[4], args[2]);
-                                break;
-                            case "--helps":
-                                HelpsBmi();
-                                break;
-                            case "--version":
-                                BmiVersion();
-                                break;
-                            default:
-                                BmiErrorHandler();
-                                break;
-                        }
-                    }
-                    else goto default;
-                    break;
-                default:
-                    BmiErrorHandler();
-                    break;
-            }
-        }
-        else
             BmiErrorHandler();
+            Environment.Exit(0);
+        }
+        else if (args[1] == "--helps")
+        {
+            HelpsBmi();
+            Environment.Exit(0);
+        }
+        else if (args[1] == "--version")
+        {
+            BmiVersion();
+            Environment.Exit(0);
+        }
+    }
+    static void Execute(string[] args)
+    {
+        switch (args[1])
+        {
+            case "--height" when args[3] == "--weight":
+                BmiCalculater(args[2], args[4]);
+                break;
+            case "--weight" when args[3] == "--height":
+                BmiCalculater(args[4], args[2]);
+                break;
+            default:
+                BmiErrorHandler();
+                break;
+        }
     }
     static void BmiCalculater(string height, string weight)
     {
         double weightInt = Convert.ToDouble(weight);
         double heightInt = Convert.ToDouble(height);
         var bmi = Math.Round(weightInt / Math.Pow(heightInt, 2));
-
 
         switch (bmi)
         {
@@ -63,7 +61,6 @@ internal class Program
                 BmiStatus(bmi, "Obese");
                 break;
         }
-
     }
     static void HelpsBmi()
     {
@@ -77,7 +74,6 @@ internal class Program
     {
         Console.WriteLine("Invalid command :(");
         Console.WriteLine("Use \"bmi --helps\" switch to show help");
-
     }
     static void BmiVersion()
     {

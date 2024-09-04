@@ -1,23 +1,35 @@
 ﻿
+using System;
+using System.Net.Mail;
 
 internal class Program
 {
     private static void Main(string[] args)
     {
-        Console.WriteLine(Power());
-        Console.WriteLine(FindExtremum());
+        ControlFlow();
     }
-    static string Power()
+    static void ControlFlow()
     {
         Console.Clear();
         Console.WriteLine("Enter two number to power it:");
         var numbers = InputList(2);
-        double result = numbers[0];
-        for (int i = 1; i < numbers[1]; i++)
+        Console.WriteLine($"{numbers[0]} power {numbers[1]}: {Power(numbers[0], numbers[1])}");
+
+        Console.ReadLine();
+        Console.Clear();
+        Console.WriteLine("Enter 5 number to find max and min:");
+        var numberList = InputList(5);
+        Console.WriteLine($"Maximum number is:{FindMaximum(numberList)}\nMinimum number is:{FindMinimum(numberList)}");
+        Console.ReadLine();
+    }
+    static double Power(double x, double y)
+    {
+        double result = x;
+        for (int i = 0; i < y - 1; i++)
         {
-            result *= numbers[0];
+            result *= x;
         }
-        return $"{numbers[0]} power {numbers[1]}: {result}";
+        return result;
     }
 
 
@@ -31,20 +43,23 @@ internal class Program
         return numberList;
     }
 
-    static string FindExtremum()
+    static double FindMaximum(double[] numberList)
     {
-        Console.ReadLine();
-        Console.Clear();
-        Console.WriteLine("Enter 5 number to find max and min:");
-        var numberList = InputList(5);
         double maxItem = numberList[0];
-        double minItem = numberList[0];
         foreach (var item in numberList)
         {
             maxItem = maxItem > item ? maxItem : item;
+        }
+        return maxItem;
+    }
+    static double FindMinimum(double[] numberList)
+    {
+        double minItem = numberList[0];
+        foreach (var item in numberList)
+        {
             minItem = minItem < item ? minItem : item;
         }
-        return $"Maximum number is:{maxItem}\nMinimum number is:{minItem}";
+        return minItem;
     }
 
 }
